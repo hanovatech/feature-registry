@@ -44,9 +44,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				filePath: s3Key,
 				fileMimeType,
 				fileSize,
-				uploadedById: user.id
+				uploadedBy: { connect: { id: user.id } }
 				// CUSTOMIZE: Add your entity relations here, e.g.:
-				// projectId: validationResult.data.projectId,
+				// project: { connect: { id: validationResult.data.projectId } },
 			}
 		});
 
