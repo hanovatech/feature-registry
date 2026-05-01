@@ -1,0 +1,117 @@
+{
+  "name": "documents",
+  "title": "Document Management",
+  "description": "S3-basierte Dokumentenverwaltung mit Presigned Uploads, rollenbasiertem Zugriff und Soft-Delete.",
+  "version": "1.0.0",
+
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.800.0",
+    "@aws-sdk/s3-request-presigner": "^3.800.0"
+  },
+
+  "uiRegistryDependencies": [
+    "pagination",
+    "page-header",
+    "sheet-form",
+    "search-filter"
+  ],
+
+  "featureRegistryDependencies": [],
+
+  "requiredEnv": [
+    "S3_ENDPOINT",
+    "S3_REGION",
+    "S3_BUCKET",
+    "S3_ACCESS_KEY_ID",
+    "S3_SECRET_ACCESS_KEY"
+  ],
+
+  "files": [
+    {
+      "source": "prisma/document.prisma",
+      "target": "prisma/fragments/document.prisma",
+      "type": "prisma-fragment",
+      "hint": "Fuege diese Models und Enums in dein schema.prisma ein. Passe DocumentType an deine Beduerfnisse an und ergaenze Relationen zu deinen Entities."
+    },
+    {
+      "source": "utils/s3.ts",
+      "target": "src/lib/utils/s3.ts",
+      "type": "util",
+      "hint": "S3-Client und Hilfsfunktionen. Falls du bereits eine s3.ts hast, merge die fehlenden Funktionen."
+    },
+    {
+      "source": "types/document.ts",
+      "target": "src/lib/types/document.ts",
+      "type": "types"
+    },
+    {
+      "source": "api/+server.ts",
+      "target": "src/routes/api/documents/+server.ts",
+      "type": "api-route"
+    },
+    {
+      "source": "api/create-presigned-url/+server.ts",
+      "target": "src/routes/api/documents/create-presigned-url/+server.ts",
+      "type": "api-route"
+    },
+    {
+      "source": "api/confirm-presigned-upload/+server.ts",
+      "target": "src/routes/api/documents/confirm-presigned-upload/+server.ts",
+      "type": "api-route"
+    },
+    {
+      "source": "api/[id]/+server.ts",
+      "target": "src/routes/api/documents/[id]/+server.ts",
+      "type": "api-route"
+    },
+    {
+      "source": "api/[id]/file/+server.ts",
+      "target": "src/routes/api/documents/[id]/file/+server.ts",
+      "type": "api-route"
+    },
+    {
+      "source": "components/form/form.svelte",
+      "target": "src/lib/components/documents/form/form.svelte",
+      "type": "component"
+    },
+    {
+      "source": "components/data-table/columns.ts",
+      "target": "src/lib/components/documents/data-table/columns.ts",
+      "type": "component"
+    },
+    {
+      "source": "components/data-table/data-table.svelte",
+      "target": "src/lib/components/documents/data-table/data-table.svelte",
+      "type": "component"
+    },
+    {
+      "source": "components/data-table/data-table-actions.svelte",
+      "target": "src/lib/components/documents/data-table/data-table-actions.svelte",
+      "type": "component"
+    },
+    {
+      "source": "components/data-table/type-badge.svelte",
+      "target": "src/lib/components/documents/data-table/type-badge.svelte",
+      "type": "component"
+    }
+  ],
+
+  "i18n": {
+    "merge": true,
+    "sources": {
+      "de": "i18n/de.json",
+      "en": "i18n/en.json"
+    },
+    "targetKey": "documents"
+  },
+
+  "postInstall": [
+    "Prisma-Fragment aus prisma/fragments/document.prisma in dein schema.prisma einfuegen",
+    "DocumentType-Enum an deine Beduerfnisse anpassen (eigene Typen hinzufuegen/entfernen)",
+    "Relationen zu deinen Entities ergaenzen (z.B. projectId, employeeId)",
+    "npx prisma migrate dev --name add_documents",
+    "npx prisma generate",
+    ".env um S3-Variablen ergaenzen (siehe requiredEnv)",
+    "S3-Bucket erstellen und CORS konfigurieren fuer Presigned Uploads"
+  ]
+}

@@ -1,0 +1,55 @@
+// ┌──────────────────────────────────────────────────────────────────────────┐
+// │ DOCUMENT MANAGEMENT — Prisma Schema Fragment                           │
+// │                                                                        │
+// │ Copy the contents below into your schema.prisma.                       │
+// │                                                                        │
+// │ CUSTOMIZE:                                                             │
+// │  1. DocumentType enum — add/remove types for your domain               │
+// │  2. Entity relations — add FKs to your models (e.g. projectId)         │
+// │  3. Indexes — add indexes on your custom FK fields                     │
+// └──────────────────────────────────────────────────────────────────────────┘
+
+enum DocumentStatus {
+  PENDING
+  UPLOADED
+  FAILED
+
+  @@map("document_statuses")
+}
+
+// CUSTOMIZE: Replace these with your project-specific document types
+enum DocumentType {
+  GENERAL
+  CONTRACT
+  REPORT
+  OTHER
+
+  @@map("document_types")
+}
+
+model Document {
+  id           String         @id @default(uuid())
+  type         DocumentType
+  status       DocumentStatus @default(PENDING)
+  fileName     String         @map("file_name")
+  filePath     String         @map("file_path")
+  fileMimeType String         @map("file_mime_type")
+  fileSize     Int            @map("file_size")
+
+  // The user who uploaded this document
+  uploadedById String         @map("uploaded_by_id")
+  uploadedBy   User           @relation(fields: [uploadedById], references: [id])
+
+  // CUSTOMIZE: Add relations to your domain entities, e.g.:
+  // projectId  String?  @map("project_id")
+  // project    Project? @relation(fields: [projectId], references: [id])
+
+  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([type])
+  @@index([uploadedById])
+  @@map("documents")
+}

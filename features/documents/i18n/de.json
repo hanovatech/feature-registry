@@ -1,0 +1,53 @@
+{
+  "title": "Dokumente",
+  "description": "Dokumente verwalten und einsehen",
+  "emptyState": "Keine Dokumente gefunden",
+  "allTypes": "Alle Dokumenttypen",
+  "types": {
+    "GENERAL": "Allgemein",
+    "CONTRACT": "Vertrag",
+    "REPORT": "Bericht",
+    "OTHER": "Sonstige"
+  },
+  "actions": {
+    "view": "Anzeigen",
+    "download": "Herunterladen",
+    "delete": "Loeschen",
+    "upload": "Dokument hochladen"
+  },
+  "messages": {
+    "viewError": "Dokument konnte nicht angezeigt werden",
+    "downloadError": "Dokument konnte nicht heruntergeladen werden",
+    "deleteConfirmTitle": "Dokument loeschen",
+    "deleteConfirm": "Moechten Sie dieses Dokument wirklich loeschen?",
+    "deleteError": "Fehler beim Loeschen des Dokuments",
+    "deleteSuccess": "Dokument erfolgreich geloescht"
+  },
+  "columns": {
+    "fileName": "Dateiname",
+    "type": "Typ",
+    "status": "Status",
+    "fileSize": "Dateigroesse",
+    "createdAt": "Erstellt am"
+  },
+  "form": {
+    "title": "Dokument hochladen",
+    "description": "Neues Dokument hochladen",
+    "documentType": "Dokumenttyp",
+    "selectDocumentType": "Dokumenttyp auswaehlen",
+    "documentInput": "Dokument",
+    "dragDrop": "Datei hierher ziehen oder klicken zum Durchsuchen",
+    "fileInfo": "Nur PDF (max {size})",
+    "messages": {
+      "selectTypeAndFile": "Bitte Dokumenttyp und Datei auswaehlen",
+      "fileSizeExceeds": "Dateigroesse ueberschreitet",
+      "fileTypeNotSupported": "Dateityp nicht unterstuetzt. Erlaubt:",
+      "uploadFailed": "Upload fehlgeschlagen",
+      "uploadSuccess": "Datei \"{name}\" erfolgreich hochgeladen!",
+      "failedGetUrl": "Upload-URL konnte nicht abgerufen werden",
+      "failedUploadStorage": "Datei konnte nicht hochgeladen werden",
+      "uploadRequestFailed": "Upload-Anfrage fehlgeschlagen",
+      "failedConfirm": "Upload konnte nicht bestaetigt werden"
+    }
+  }
+}
