@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsx scripts/build.ts",
+    "test": "tsx scripts/test-features.ts",
     "dev": "tsx watch scripts/build.ts"
   },
   "devDependencies": {

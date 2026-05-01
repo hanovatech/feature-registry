@@ -19,9 +19,6 @@ enum DocumentStatus {
 
 // CUSTOMIZE: Replace these with your project-specific document types
 enum DocumentType {
-  GENERAL
-  CONTRACT
-  REPORT
   OTHER
 
   @@map("document_types")
@@ -37,8 +34,8 @@ model Document {
   fileSize     Int            @map("file_size")
 
   // The user who uploaded this document
-  uploadedById String         @map("uploaded_by_id")
-  uploadedBy   User           @relation(fields: [uploadedById], references: [id])
+  uploadedById String @map("uploaded_by_id")
+  uploadedBy   User   @relation(fields: [uploadedById], references: [id])
 
   // CUSTOMIZE: Add relations to your domain entities, e.g.:
   // projectId  String?  @map("project_id")
