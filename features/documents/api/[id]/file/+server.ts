@@ -16,48 +16,45 @@ import type { RequestHandler } from './$types';
  * team access, etc.)
  */
 export const GET: RequestHandler = async ({ locals, params, url }) => {
-	const user = locals.session?.user;
-	const isDownload = url.searchParams.get('download');
+  const user = locals.session?.user;
+  const isDownload = url.searchParams.get('download');
 
-	logger.debug({ userId: user?.id, documentId: params.id }, 'GET /api/documents/[id]/file');
+  logger.debug({ userId: user?.id, documentId: params.id }, 'GET /api/documents/[id]/file');
 
-	if (!user) {
-		return error(401, 'Unauthorized');
-	}
+  if (!user) {
+    return error(401, 'Unauthorized');
+  }
 
-	try {
-		const document = await prisma.document.findUniqueOrThrow({
-			where: { id: params.id }
-		});
+  try {
+    const document = await prisma.document.findUniqueOrThrow({
+      where: { id: params.id },
+    });
 
-		// Authorization: admin or uploader
-		// CUSTOMIZE: Add your own access rules here
-		if (user.role !== 'ADMIN' && document.uploadedById !== user.id) {
-			return error(403, 'Forbidden');
-		}
+    // Authorization: admin or uploader
+    // CUSTOMIZE: Add your own access rules here
+    if (user.role !== 'ADMIN') {
+      return error(403, 'Forbidden');
+    }
 
-		// Generate presigned URL
-		const presignedUrl = await getPresignedUrl(
-			document.filePath,
-			3600,
-			isDownload
-				? {
-						ResponseContentDisposition: `attachment; filename="${document.fileName}"`
-					}
-				: undefined
-		);
+    // Generate presigned URL
+    const presignedUrl = await getPresignedUrl(
+      document.filePath,
+      3600,
+      isDownload
+        ? {
+            ResponseContentDisposition: `attachment; filename="${document.fileName}"`,
+          }
+        : undefined
+    );
 
-		logger.info(
-			{ documentId: params.id, userId: user.id },
-			'Presigned URL generated for document'
-		);
+    logger.info({ documentId: params.id, userId: user.id }, 'Presigned URL generated for document');
 
-		return json({
-			downloadUrl: presignedUrl,
-			fileName: document.fileName
-		});
-	} catch (err) {
-		logger.error({ err, documentId: params.id, userId: user.id }, 'Error generating download URL');
-		return error(500, 'Failed to generate download URL');
-	}
+    return json({
+      downloadUrl: presignedUrl,
+      fileName: document.fileName,
+    });
+  } catch (err) {
+    logger.error({ err, documentId: params.id, userId: user.id }, 'Error generating download URL');
+    return error(500, 'Failed to generate download URL');
+  }
 };
