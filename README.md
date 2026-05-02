@@ -84,7 +84,7 @@ features/<name>/
     └── en.json                # English translations
 ```
 
-**No UI components.** Features provide only the backend infrastructure (schema, API, types, utils). UI is always project-specific and built using the [ui-registry](https://github.com/hanovatech/ui-registry) components (PageHeader, SheetForm, DataTable, Pagination, etc.).
+**No UI components.** Features provide only the backend infrastructure (schema, API, types, utils). UI is always project-specific.
 
 ### Manifest Format
 
@@ -99,7 +99,6 @@ features/<name>/
     "some-npm-package": "^1.0.0"
   },
 
-  "uiRegistryDependencies": [],
   "featureRegistryDependencies": [],
 
   "requiredEnv": ["SOME_API_KEY"],
@@ -192,7 +191,6 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/feature_registry_tes
 | Repo | Purpose |
 |------|---------|
 | [starter-app](https://github.com/hanovatech/starter-app) | SvelteKit base template for new client projects |
-| [ui-registry](https://github.com/hanovatech/ui-registry) | Reusable UI components (shadcn-style, installed via CLI) |
 
 ## License
 

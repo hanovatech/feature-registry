@@ -8,7 +8,7 @@ The HanovaTech Feature Registry — a collection of reusable backend feature tem
 
 **This repo does NOT contain a runnable SvelteKit app.** The source files under `features/` use imports like `$lib/utils/prisma` and `zod` that don't exist here. The code is only validated when installed into a real project via `npm test`.
 
-**Features contain backend only — no UI components.** Each feature provides Prisma schema, API routes, Zod types, utils, and i18n keys. UI (DataTables, Forms, Pages) is always built project-specifically using components from the [ui-registry](https://github.com/hanovatech/ui-registry).
+**Features contain backend only — no UI components.** Each feature provides Prisma schema, API routes, Zod types, utils, and i18n keys. UI (DataTables, Forms, Pages) is always built project-specifically.
 
 ## Commands
 
@@ -108,4 +108,4 @@ Features are **extracted from real client projects**, never built from scratch i
 
 - When the **starter-app** changes its base structure (new utils, schema changes), the test will catch incompatibilities automatically
 - When a **feature** changes, CI re-runs the full integration test
-- The **ui-registry** is independent — features don't bundle UI components
+- The **ui-registry** is a separate, unrelated repo for reusable UI components

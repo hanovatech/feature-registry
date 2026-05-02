@@ -9,8 +9,6 @@
     "@aws-sdk/s3-request-presigner": "^3.800.0"
   },
 
-  "uiRegistryDependencies": [],
-
   "featureRegistryDependencies": [],
 
   "requiredEnv": [

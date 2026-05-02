@@ -31,7 +31,6 @@ interface Manifest {
 	description: string;
 	version: string;
 	dependencies?: Record<string, string>;
-	uiRegistryDependencies?: string[];
 	featureRegistryDependencies?: string[];
 	requiredEnv?: string[];
 	files: ManifestFile[];
@@ -56,7 +55,6 @@ interface OutputFeature {
 	description: string;
 	version: string;
 	dependencies?: Record<string, string>;
-	uiRegistryDependencies?: string[];
 	featureRegistryDependencies?: string[];
 	requiredEnv?: string[];
 	files: OutputFile[];
@@ -127,9 +125,6 @@ async function buildFeature(featureDir: string): Promise<OutputFeature> {
 
 	if (manifest.dependencies && Object.keys(manifest.dependencies).length > 0) {
 		output.dependencies = manifest.dependencies;
-	}
-	if (manifest.uiRegistryDependencies?.length) {
-		output.uiRegistryDependencies = manifest.uiRegistryDependencies;
 	}
 	if (manifest.featureRegistryDependencies?.length) {
 		output.featureRegistryDependencies = manifest.featureRegistryDependencies;
