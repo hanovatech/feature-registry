@@ -1,53 +1,7 @@
 {
   "title": "Documents",
   "description": "Manage and view all documents",
-  "emptyState": "No documents found",
-  "allTypes": "All Document Types",
   "types": {
-    "GENERAL": "General",
-    "CONTRACT": "Contract",
-    "REPORT": "Report",
     "OTHER": "Other"
-  },
-  "actions": {
-    "view": "View",
-    "download": "Download",
-    "delete": "Delete",
-    "upload": "Upload Document"
-  },
-  "messages": {
-    "viewError": "Failed to view document",
-    "downloadError": "Failed to download document",
-    "deleteConfirmTitle": "Delete Document",
-    "deleteConfirm": "Are you sure you want to delete this document?",
-    "deleteError": "Failed to delete document",
-    "deleteSuccess": "Document deleted successfully"
-  },
-  "columns": {
-    "fileName": "File Name",
-    "type": "Type",
-    "status": "Status",
-    "fileSize": "Size",
-    "createdAt": "Created At"
-  },
-  "form": {
-    "title": "Upload Document",
-    "description": "Upload a new document",
-    "documentType": "Document Type",
-    "selectDocumentType": "Select a document type",
-    "documentInput": "Document",
-    "dragDrop": "Drag and drop your file here, or click to browse",
-    "fileInfo": "PDF only (max {size})",
-    "messages": {
-      "selectTypeAndFile": "Please select a document type and file",
-      "fileSizeExceeds": "File size exceeds",
-      "fileTypeNotSupported": "File type not supported. Allowed:",
-      "uploadFailed": "Upload failed",
-      "uploadSuccess": "File \"{name}\" uploaded successfully!",
-      "failedGetUrl": "Failed to get upload URL",
-      "failedUploadStorage": "Failed to upload file to storage",
-      "uploadRequestFailed": "Upload request failed",
-      "failedConfirm": "Failed to confirm upload"
-    }
   }
 }

@@ -2,28 +2,23 @@
   "name": "documents",
   "title": "Document Management",
   "description": "S3-basierte Dokumentenverwaltung mit Presigned Uploads, rollenbasiertem Zugriff und Soft-Delete.",
-  "version": "1.0.0",
+  "version": "2.0.0",
 
   "dependencies": {
     "@aws-sdk/client-s3": "^3.800.0",
     "@aws-sdk/s3-request-presigner": "^3.800.0"
   },
 
-  "uiRegistryDependencies": [
-    "pagination",
-    "page-header",
-    "sheet-form",
-    "search-filter"
-  ],
+  "uiRegistryDependencies": [],
 
   "featureRegistryDependencies": [],
 
   "requiredEnv": [
-    "S3_ENDPOINT",
+    "S3_ENDPOINT_URL",
     "S3_REGION",
-    "S3_BUCKET",
     "S3_ACCESS_KEY_ID",
-    "S3_SECRET_ACCESS_KEY"
+    "S3_ACCESS_KEY_SECRET",
+    "S3_BUCKET_NAME"
   ],
 
   "files": [
@@ -31,7 +26,7 @@
       "source": "prisma/document.prisma",
       "target": "prisma/fragments/document.prisma",
       "type": "prisma-fragment",
-      "hint": "Fuege diese Models und Enums in dein schema.prisma ein. Passe DocumentType an deine Beduerfnisse an und ergaenze Relationen zu deinen Entities."
+      "hint": "Füge diese Models und Enums in dein schema.prisma ein. Passe DocumentType an deine Bedürfnisse an und ergänze Relationen zu deinen Entities."
     },
     {
       "source": "utils/s3.ts",
@@ -68,31 +63,6 @@
       "source": "api/[id]/file/+server.ts",
       "target": "src/routes/api/documents/[id]/file/+server.ts",
       "type": "api-route"
-    },
-    {
-      "source": "components/form/form.svelte",
-      "target": "src/lib/components/documents/form/form.svelte",
-      "type": "component"
-    },
-    {
-      "source": "components/data-table/columns.ts",
-      "target": "src/lib/components/documents/data-table/columns.ts",
-      "type": "component"
-    },
-    {
-      "source": "components/data-table/data-table.svelte",
-      "target": "src/lib/components/documents/data-table/data-table.svelte",
-      "type": "component"
-    },
-    {
-      "source": "components/data-table/data-table-actions.svelte",
-      "target": "src/lib/components/documents/data-table/data-table-actions.svelte",
-      "type": "component"
-    },
-    {
-      "source": "components/data-table/type-badge.svelte",
-      "target": "src/lib/components/documents/data-table/type-badge.svelte",
-      "type": "component"
     }
   ],
 
@@ -106,12 +76,13 @@
   },
 
   "postInstall": [
-    "Prisma-Fragment aus prisma/fragments/document.prisma in dein schema.prisma einfuegen",
-    "DocumentType-Enum an deine Beduerfnisse anpassen (eigene Typen hinzufuegen/entfernen)",
-    "Relationen zu deinen Entities ergaenzen (z.B. projectId, employeeId)",
+    "Prisma-Fragment aus prisma/fragments/document.prisma in dein schema.prisma einfügen",
+    "DocumentType-Enum an deine Bedürfnisse anpassen (eigene Typen hinzufügen/entfernen)",
+    "Relationen zu deinen Entities ergänzen (z.B. projectId, employeeId)",
     "npx prisma migrate dev --name add_documents",
     "npx prisma generate",
-    ".env um S3-Variablen ergaenzen (siehe requiredEnv)",
-    "S3-Bucket erstellen und CORS konfigurieren fuer Presigned Uploads"
+    ".env um S3-Variablen ergänzen (siehe requiredEnv)",
+    "S3-Bucket erstellen und CORS konfigurieren für Presigned Uploads",
+    "UI-Components (DataTable, Upload-Form) projektspezifisch bauen"
   ]
 }

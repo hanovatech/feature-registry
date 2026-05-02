@@ -1,6 +1,6 @@
 # HanovaTech Feature Registry
 
-Full-stack feature templates for HanovaTech client projects. Each feature provides Prisma schema fragments, API routes, Svelte components, Zod types, and i18n translations that get copied into a project and customized — like [shadcn](https://shadcn-svelte.com/), but for entire backend+frontend features.
+Backend feature templates for HanovaTech client projects. Each feature provides Prisma schema fragments, API routes, Zod types, and i18n translations that get copied into a project and customized. UI components are built project-specifically — only the backend infrastructure is shared.
 
 **Live registry:** https://hanovatech.github.io/feature-registry/r/index.json
 
@@ -11,8 +11,8 @@ features/documents/          →  npm run build  →  dist/r/documents.json  →
   ├── manifest.json                                (all files inlined)
   ├── prisma/document.prisma
   ├── api/+server.ts
-  ├── components/form.svelte
   ├── types/document.ts
+  ├── utils/s3.ts
   └── i18n/de.json, en.json
 ```
 
@@ -20,6 +20,7 @@ features/documents/          →  npm run build  →  dist/r/documents.json  →
 2. `npm run build` reads each manifest, inlines all file contents, outputs a single JSON per feature to `dist/r/`
 3. GitHub Pages serves `dist/` — each feature is a self-contained JSON file
 4. Consumer projects fetch the JSON and copy files into the correct locations
+5. UI components (DataTables, Forms, etc.) are built project-specifically
 
 ## Available Features
 
@@ -47,6 +48,8 @@ npx prisma generate
 
 # 4. Install npm dependencies listed in the feature JSON
 npm install @aws-sdk/client-s3 @aws-sdk/s3-request-presigner
+
+# 5. Build your UI components using the installed API routes and types
 ```
 
 Each feature's `manifest.json` lists all post-install steps. Files marked with `// CUSTOMIZE:` comments show where project-specific changes are needed.
@@ -57,7 +60,7 @@ Features are **extracted from real client projects**, not built in this repo. Th
 
 1. **Develop** the feature in a client project (e.g., apaton-app) until it works in production
 2. **Identify** which parts are generic vs. project-specific
-3. **Extract** the generic parts into `features/<name>/`
+3. **Extract** the generic backend parts into `features/<name>/`
 4. **Generalize** — replace project-specific entities/types with `// CUSTOMIZE:` placeholders
 5. **Create** `manifest.json` describing all files, dependencies, and post-install steps
 6. **Test** — `npm run build && npm test`
@@ -73,12 +76,6 @@ features/<name>/
 ├── api/
 │   ├── +server.ts             # List endpoint (GET)
 │   └── [id]/+server.ts        # Detail/delete endpoints
-├── components/
-│   ├── form/form.svelte       # Create/edit form
-│   └── data-table/
-│       ├── columns.ts         # TanStack column definitions
-│       ├── data-table.svelte  # Table with filters + pagination
-│       └── data-table-actions.svelte
 ├── types/
 │   └── <name>.ts              # Zod schemas + TypeScript types
 ├── utils/                     # Feature-specific utilities (optional)
@@ -86,6 +83,8 @@ features/<name>/
     ├── de.json                # German translations (feature keys only)
     └── en.json                # English translations
 ```
+
+**No UI components.** Features provide only the backend infrastructure (schema, API, types, utils). UI is always project-specific and built using the [ui-registry](https://github.com/hanovatech/ui-registry) components (PageHeader, SheetForm, DataTable, Pagination, etc.).
 
 ### Manifest Format
 
@@ -100,7 +99,7 @@ features/<name>/
     "some-npm-package": "^1.0.0"
   },
 
-  "uiRegistryDependencies": ["pagination", "page-header"],
+  "uiRegistryDependencies": [],
   "featureRegistryDependencies": [],
 
   "requiredEnv": ["SOME_API_KEY"],
@@ -118,11 +117,6 @@ features/<name>/
       "type": "api-route"
     },
     {
-      "source": "components/form/form.svelte",
-      "target": "src/lib/components/feature/form/form.svelte",
-      "type": "component"
-    },
-    {
       "source": "types/feature.ts",
       "target": "src/lib/types/feature.ts",
       "type": "types"
@@ -138,7 +132,8 @@ features/<name>/
   "postInstall": [
     "Merge Prisma fragment into schema.prisma",
     "npx prisma migrate dev --name add_feature",
-    "npx prisma generate"
+    "npx prisma generate",
+    "Build UI components project-specifically"
   ]
 }
 ```
@@ -149,7 +144,6 @@ features/<name>/
 |------|---------------|---------|
 | `prisma-fragment` | `prisma/fragments/<name>.prisma` | Schema fragment — merged manually into `schema.prisma` |
 | `api-route` | `src/routes/api/<name>/**` | SvelteKit API route handlers |
-| `component` | `src/lib/components/<name>/**` | Svelte components (Layer 3 — editable) |
 | `types` | `src/lib/types/<name>.ts` | Zod schemas + TypeScript types |
 | `util` | `src/lib/utils/<name>.ts` | Utility functions / singletons |
 
@@ -158,7 +152,7 @@ features/<name>/
 - Mark every customization point with `// CUSTOMIZE:` comments
 - Use Prisma relation `connect` syntax: `uploadedBy: { connect: { id: user.id } }`
 - Keep role checks generic: ADMIN sees all, others see own data
-- Use `$t.featureName.key` for all UI strings
+- Validation: Zod schemas in `types/`, validate before DB access
 - Follow all conventions from the [starter-app CLAUDE.md](https://github.com/hanovatech/starter-app/blob/main/CLAUDE.md)
 
 ## Scripts
